@@ -1,0 +1,149 @@
+/* ==========================================================================
+   Starter design tokens  ·  frontend-ux-craft
+   --------------------------------------------------------------------------
+   This is a SCAFFOLD, not a look. The structure is what to keep; the values
+   are what to change. To re-theme:
+     1. Pick --h-brand from the subject matter (see references/color-and-theming.md)
+     2. Pick --h-neutral (tint greys toward the brand hue, or a complementary warmth)
+     3. Re-tune chroma per hue (cyan/yellow gamuts are narrow) and re-run
+        scripts/contrast.py on every text/background pair. It flags out-of-gamut colors.
+   Every component reads SEMANTIC tokens (--text, --surface, --brand ...),
+   never primitives, never raw hex. That is what makes dark mode, themes, and
+   whole-product re-skins a one-file change.
+   ========================================================================== */
+
+:root {
+  /* ---------- Primitives: the only place hue numbers live ---------- */
+  --h-brand: 200;
+  --h-neutral: 90;
+
+  /* ---------- Semantic color: ONE declaration per token via light-dark() ----------
+     light-dark(<light>, <dark>) resolves from color-scheme, so the OS preference and the
+     manual toggle below both work with zero duplicated blocks to drift apart. */
+  color-scheme: light dark;
+
+  --bg: light-dark(oklch(98.6% 0.006 var(--h-neutral)),
+      oklch(18% 0.008 var(--h-neutral)));  /* page */
+  --surface: light-dark(oklch(99.7% 0.003 var(--h-neutral)),
+      oklch(22% 0.010 var(--h-neutral)));  /* cards, popovers */
+  --surface-sunken: light-dark(oklch(96% 0.008 var(--h-neutral)),
+      oklch(15% 0.008 var(--h-neutral)));  /* wells, table stripes, inputs-at-rest */
+  --border: light-dark(oklch(89% 0.010 var(--h-neutral)),
+      oklch(30% 0.010 var(--h-neutral)));  /* decorative dividers only (below 3:1 by design) */
+  --border-strong: light-dark(oklch(60% 0.020 var(--h-neutral)),
+      oklch(58% 0.020 var(--h-neutral)));  /* input outlines, checkbox edges (>= 3:1) */
+
+  --text: light-dark(oklch(24% 0.020 var(--h-neutral)),
+      oklch(94% 0.010 var(--h-neutral)));
+  --text-muted: light-dark(oklch(46% 0.020 var(--h-neutral)),
+      oklch(75% 0.015 var(--h-neutral)));
+  --text-subtle: light-dark(oklch(52% 0.020 var(--h-neutral)),
+      oklch(66% 0.015 var(--h-neutral)));  /* still >= 4.5:1; never go lighter than this */
+
+  --brand: light-dark(oklch(50% 0.085 var(--h-brand)),
+      oklch(72% 0.120 var(--h-brand)));  /* fills: primary button, selected state */
+  --on-brand: light-dark(oklch(99% 0.005 var(--h-brand)),
+      oklch(18% 0.020 var(--h-brand)));  /* text/icons on a --brand fill */
+  --brand-hover: light-dark(oklch(45% 0.070 var(--h-brand)),
+      oklch(77% 0.115 var(--h-brand)));
+  --brand-text: light-dark(oklch(44% 0.075 var(--h-brand)),
+      oklch(80% 0.110 var(--h-brand)));  /* brand-colored text/links on --bg */
+  --brand-subtle: light-dark(oklch(94.5% 0.030 var(--h-brand)),
+      oklch(28% 0.040 var(--h-brand)));  /* tinted backgrounds, selected rows */
+
+  --danger: light-dark(oklch(50% 0.190 27),
+      oklch(68% 0.190 27));
+  --on-danger: light-dark(oklch(98.5% 0.004 27),
+      oklch(18% 0.020 27));
+  --danger-text: light-dark(oklch(45% 0.180 27),
+      oklch(80% 0.110 27));
+  --danger-subtle: light-dark(oklch(95% 0.020 27),
+      oklch(27% 0.060 27));
+
+  --success-text: light-dark(oklch(43% 0.110 150),
+      oklch(80% 0.130 150));
+  --success-subtle: light-dark(oklch(95% 0.040 150),
+      oklch(27% 0.050 150));
+  --warning-text: light-dark(oklch(45% 0.090 70),
+      oklch(82% 0.120 80));
+  --warning-subtle: light-dark(oklch(96% 0.035 85),
+      oklch(28% 0.050 80));
+  --info-text: light-dark(oklch(45% 0.120 250),
+      oklch(80% 0.100 250));
+  --info-subtle: light-dark(oklch(95% 0.020 250),
+      oklch(27% 0.050 250));
+
+  --focus-ring: var(--brand-text);                         /* 3:1 against every surface it can land on */
+  --selection:  color-mix(in oklch, var(--brand) 25%, transparent);
+
+  /* ---------- Spacing: 4px base, deliberately non-linear ---------- */
+  --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
+  --space-4: 1rem;     --space-5: 1.5rem;   --space-6: 2rem;
+  --space-7: 3rem;     --space-8: 4.5rem;   --space-9: 7rem;
+
+  /* ---------- Type: fluid, modular-ish. Replace families per brief. ---------- */
+  --font-body:    system-ui, sans-serif;     /* placeholder: choose deliberately */
+  --font-display: var(--font-body);          /* only split if the two are clearly distinct */
+  --font-mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --text-sm:   clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --text-lg:   clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem);
+  --text-xl:   clamp(1.375rem, 1.2rem + 0.9vw, 1.75rem);
+  --text-2xl:  clamp(1.75rem, 1.4rem + 1.8vw, 2.5rem);
+  --text-3xl:  clamp(2.25rem, 1.6rem + 3.2vw, 3.75rem);
+  --leading-tight: 1.15; --leading-snug: 1.35; --leading-body: 1.6;
+  --measure: 66ch;                           /* readable line length for prose */
+
+  /* ---------- Shape: radius follows ROLE, not one value everywhere ---------- */
+  --radius-control: 0.375rem;   /* buttons, inputs, chips */
+  --radius-surface: 0.75rem;    /* cards, panels, popovers */
+  --radius-overlay: 1rem;       /* dialogs, sheets */
+  --radius-pill: 999px;         /* only for genuinely pill-shaped things (tags, toggles) */
+
+  /* ---------- Elevation: pick ONE strategy (border OR shadow) per product ---------- */
+  --shadow-color: light-dark(oklch(20% 0.02 var(--h-neutral) / 0.14), oklch(0% 0 0 / 0.55));
+  --shadow-raised:  0 1px 2px var(--shadow-color), 0 1px 1px var(--shadow-color);
+  --shadow-overlay: 0 12px 32px -8px var(--shadow-color), 0 2px 6px var(--shadow-color);
+  /* on dark, shadows barely read: lean on surface lightness steps (--bg < --surface) for depth */
+
+  /* ---------- Motion: short, purposeful, answers an action ---------- */
+  --dur-fast: 120ms;  --dur-base: 200ms;  --dur-slow: 320ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.6, 0, 0.2, 1);
+
+  /* ---------- Layering: a scale, so nobody writes z-index: 99999 ---------- */
+  --z-sticky: 10; --z-dropdown: 20; --z-overlay: 30; --z-toast: 40;
+
+  /* ---------- Hit targets ---------- */
+  --target-min: 2.75rem;        /* 44px: comfortable. WCAG 2.2 AA floor is 24px. */
+}
+
+/* ---------- Semantic color · DARK (designed, not inverted) ---------- */
+/* Manual override from a theme toggle. No attribute = follow the OS. */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
+/* ---------- Baseline behaviors that should never be forgotten ---------- */
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--text); font: var(--text-base)/var(--leading-body) var(--font-body); }
+::selection { background: var(--selection); }
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;                       /* the gap keeps the ring visible on filled controls */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;        /* transitions that convey state should become instant, not vanish */
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  /* Let the OS palette win. Only restore things that rely on background-color or box-shadow alone. */
+  :where(button, input, select, textarea) { border: 1px solid ButtonText; }
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible { outline-color: Highlight; }
+}
