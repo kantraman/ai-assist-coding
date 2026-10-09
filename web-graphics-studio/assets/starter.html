@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Studio Name — One clear promise</title>
+<meta name="description" content="Replace with a one-sentence description.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
+<style>
+  :root {
+    --hue: 265;
+    --bg: oklch(98% 0.01 var(--hue));
+    --surface: oklch(100% 0 0);
+    --text: oklch(22% 0.03 var(--hue));
+    --muted: oklch(48% 0.03 var(--hue));
+    --accent: oklch(62% 0.23 305);
+    --accent-rgb: 130, 90, 240;
+    --border: oklch(22% 0.03 var(--hue) / .12);
+    --radius: 18px;
+    --ease-out: cubic-bezier(.22, 1, .36, 1);
+    --shadow: 0 1px 2px #0001, 0 10px 30px -10px #0002, 0 30px 60px -30px #0003;
+    --font-display: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --space: clamp(1rem, 2vw, 1.5rem);
+    --section: clamp(4rem, 10vw, 8rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: oklch(15% 0.03 var(--hue));
+      --surface: oklch(20% 0.035 var(--hue));
+      --text: oklch(95% 0.01 var(--hue));
+      --muted: oklch(72% 0.03 var(--hue));
+      --border: oklch(95% 0.01 var(--hue) / .12);
+      --accent: oklch(72% 0.2 305);
+      --accent-rgb: 170, 140, 255;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: oklch(15% 0.03 var(--hue)); --surface: oklch(20% 0.035 var(--hue));
+    --text: oklch(95% 0.01 var(--hue)); --muted: oklch(72% 0.03 var(--hue));
+    --border: oklch(95% 0.01 var(--hue) / .12); --accent: oklch(72% 0.2 305); --accent-rgb: 170, 140, 255;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  ::selection { background: var(--accent); color: #fff; }
+  img, svg, canvas { max-width: 100%; display: block; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  .wrap { width: min(1160px, 100% - 2 * var(--space)); margin-inline: auto; }
+  h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; letter-spacing: -0.03em; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(2.6rem, 1.2rem + 6vw, 6rem); }
+  h2 { font-size: clamp(1.9rem, 1.2rem + 3vw, 3.4rem); }
+  p { margin: 0; text-wrap: pretty; }
+  .lead { font-size: clamp(1.05rem, .95rem + .5vw, 1.3rem); color: var(--muted); max-width: 56ch; }
+  .eyebrow { font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .gradient-text { background: linear-gradient(100deg, var(--text) 10%, var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* Nav */
+  header.nav { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px) saturate(140%); background: color-mix(in oklab, var(--bg) 70%, transparent); border-bottom: 1px solid var(--border); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-block: .85rem; }
+  .brand { font-family: var(--font-display); font-weight: 700; letter-spacing: -.02em; text-decoration: none; }
+  .nav nav { display: flex; gap: 1.5rem; font-size: .95rem; }
+  .nav nav a { text-decoration: none; color: var(--muted); transition: color .2s; }
+  .nav nav a:hover { color: var(--text); }
+  @media (max-width: 640px) { .nav nav a:not(.btn) { display: none; } }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .85rem 1.4rem; border-radius: 999px; font-weight: 600; text-decoration: none; border: 1px solid var(--border); background: var(--surface); transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out); }
+  .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
+
+  /* Hero */
+  .hero { position: relative; min-height: min(92vh, 56rem); display: grid; align-items: center; overflow: hidden; isolation: isolate; }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 50% 120%, var(--bg) 20%, transparent 70%); pointer-events: none; }
+  .hero .wrap { display: grid; gap: 1.5rem; padding-block: var(--section); }
+  .actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .5rem; }
+
+  /* Features / bento */
+  section.block { padding-block: var(--section); }
+  .head { display: grid; gap: .8rem; margin-bottom: 2.5rem; }
+  .bento { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); grid-auto-rows: minmax(190px, auto); }
+  .tile { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; display: grid; align-content: end; gap: .4rem; overflow: hidden; transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out); }
+  .tile:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .tile.wide { grid-column: span 2; } .tile.tall { grid-row: span 2; }
+  @media (max-width: 560px) { .tile.wide { grid-column: auto; } }
+  .tile h3 { font-size: 1.25rem; }
+  .tile p { color: var(--muted); font-size: .95rem; }
+  .tile .glow { position: absolute; inset: -40% -20% auto auto; width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(var(--accent-rgb), .35), transparent 65%); filter: blur(20px); pointer-events: none; }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* CTA + footer */
+  .cta { text-align: center; display: grid; justify-items: center; gap: 1.2rem; padding: clamp(2.5rem, 7vw, 5rem) var(--space); border-radius: calc(var(--radius) * 1.6); border: 1px solid var(--border); background: radial-gradient(at 20% 0%, rgba(var(--accent-rgb), .22), transparent 55%), var(--surface); }
+  footer { padding-block: 3rem; color: var(--muted); font-size: .9rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">✦ Studio</a>
+    <nav aria-label="Primary">
+      <a href="#features">Features</a>
+      <a href="#work">Work</a>
+      <a class="btn primary" href="#contact">Get started</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <span class="eyebrow reveal">Replace with a short label</span>
+      <h1 class="reveal" style="--i:1">Make something <span class="gradient-text">people remember</span></h1>
+      <p class="lead reveal" style="--i:2">One supporting sentence that explains the outcome, written for a real person rather than a search engine.</p>
+      <div class="actions reveal" style="--i:3">
+        <a class="btn primary" href="#contact">Start a project</a>
+        <a class="btn" href="#features">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow reveal">Features</span>
+        <h2 class="reveal" style="--i:1">Built to feel effortless</h2>
+      </div>
+      <div class="bento">
+        <article class="tile wide tall reveal"><span class="glow"></span><h3>Hero feature</h3><p>Give the most important capability the biggest tile.</p></article>
+        <article class="tile reveal" style="--i:1"><h3>Fast</h3><p>Short, concrete benefit statement.</p></article>
+        <article class="tile reveal" style="--i:2"><h3>Accessible</h3><p>Short, concrete benefit statement.</p></article>
+        <article class="tile wide reveal" style="--i:3"><span class="glow"></span><h3>Delightful details</h3><p>Motion that guides attention and respects user preferences.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h2>Ready when you are</h2>
+        <p class="lead">Restate the promise in one line.</p>
+        <a class="btn primary" href="mailto:hello@example.com">Say hello</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© <span id="year"></span> Studio. All rights reserved.</div></footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* Reveal on scroll (works everywhere, no library) */
+  const reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+    reveals.forEach(el => io.observe(el));
+  } else { reveals.forEach(el => el.classList.add("in")); }
+
+  /* Animated hero background: drifting particle network */
+  (function () {
+    const canvas = document.getElementById("hero-canvas");
+    const ctx = canvas.getContext("2d");
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let w, h, dpr, running = true, last = 0, ps = [];
+    const rgb = () => getComputedStyle(document.documentElement).getPropertyValue("--accent-rgb").trim() || "130,90,240";
+    let col = rgb();
+    matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => col = rgb());
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.min(110, Math.floor(w / 11));
+      ps = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - .5) * 26, vy: (Math.random() - .5) * 26 }));
+      draw();
+    }
+    const pointer = { x: -999, y: -999 };
+    canvas.parentElement.addEventListener("pointermove", e => { const r = canvas.getBoundingClientRect(); pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top; });
+    canvas.parentElement.addEventListener("pointerleave", () => { pointer.x = pointer.y = -999; });
+
+    function update(dt) {
+      for (const p of ps) {
+        const dx = p.x - pointer.x, dy = p.y - pointer.y, d = Math.hypot(dx, dy);
+        if (d < 120 && d > 0) { p.vx += (dx / d) * 40 * dt; p.vy += (dy / d) * 40 * dt; }
+        p.vx *= 0.995; p.vy *= 0.995;
+        p.x += p.vx * dt; p.y += p.vy * dt;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+      }
+    }
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < ps.length; i++) {
+        const a = ps[i];
+        ctx.fillStyle = `rgba(${col},.85)`; ctx.beginPath(); ctx.arc(a.x, a.y, 1.8, 0, 6.2832); ctx.fill();
+        for (let j = i + 1; j < ps.length; j++) {
+          const b = ps[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < 130) { ctx.strokeStyle = `rgba(${col},${(1 - d / 130) * .35})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+        }
+      }
+    }
+    function frame(t) {
+      if (!running || document.hidden) { return; }
+      const dt = Math.min((t - last) / 1000, 0.05); last = t;
+      update(dt); draw(); requestAnimationFrame(frame);
+    }
+    new ResizeObserver(resize).observe(canvas);
+    if (reduce) return; // static single frame only
+    const start = () => { last = performance.now(); requestAnimationFrame(frame); };
+    new IntersectionObserver(([e]) => { const was = running; running = e.isIntersecting; if (running && !was) start(); }).observe(canvas);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden && running) start(); });
+    start();
+  })();
+</script>
+</body>
+</html>
