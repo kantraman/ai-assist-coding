@@ -15,13 +15,14 @@ Each skill acts as a specialized playbook that equips the AI agent with domain e
   - [1. Planning, Architecture & Visualization](#1-planning-architecture--visualization)
   - [2. Database & Data Modeling](#2-database--data-modeling)
   - [3. Documentation & Technical Handover](#3-documentation--technical-handover)
-  - [4. Code Quality & Review](#4-code-quality--review)
+  - [4. Code Quality, Refactoring & Review](#4-code-quality-refactoring--review)
   - [5. Testing & Quality Assurance](#5-testing--quality-assurance)
   - [6. Codebase Exploration & Analysis](#6-codebase-exploration--analysis)
-  - [7. UI/UX & Frontend Engineering](#7-uiux--frontend-engineering)
-  - [8. Algorithms & Problem Solving](#8-algorithms--problem-solving)
-  - [9. Domain Integrations & Compliance](#9-domain-integrations--compliance)
-  - [10. Cost & Token Optimization](#10-cost--token-optimization)
+  - [7. Debugging & Root Cause Analysis](#7-debugging--root-cause-analysis)
+  - [8. UI/UX & Creative Frontend Engineering](#8-uiux--creative-frontend-engineering)
+  - [9. Algorithms & Problem Solving](#9-algorithms--problem-solving)
+  - [10. Domain Integrations & Compliance](#10-domain-integrations--compliance)
+  - [11. Cost & Token Optimization](#11-cost--token-optimization)
 - [Skill Structure Specification](#skill-structure-specification)
 - [Adding New Skills](#adding-new-skills)
 - [License](#license)
@@ -33,7 +34,7 @@ Each skill acts as a specialized playbook that equips the AI agent with domain e
 Modern AI coding agents excel when guided by clear protocols and targeted domain knowledge rather than generic prompts. This repository packages production-grade software engineering practices into modular directories:
 
 - **Token Efficient**: Uses progressive disclosure—agents load only the frontmatter index initially, reading detailed instructions and reference manuals only when relevant.
-- **Runnable Local Tools**: Ships with fast, zero-dependency Python utilities for tasks like dependency analysis, AST pattern matching, WCAG contrast verification, Mermaid syntax linting, Postman collection generation, and mutation testing.
+- **Runnable Local Tools**: Ships with fast, zero-dependency Python utilities for tasks like dependency analysis, AST pattern matching, WCAG contrast verification, Mermaid syntax linting, Postman collection generation, hardcoded color extraction, and mutation testing.
 - **Portable & Isolated**: All script and asset paths are self-contained and relative to each skill directory.
 
 ---
@@ -43,7 +44,7 @@ Modern AI coding agents excel when guided by clear protocols and targeted domain
 Skills leverage **Progressive Disclosure** to maintain a lean context window:
 
 1. **Discovery**: On startup, the agent indexes the `name` and `description` frontmatter from every `SKILL.md`.
-2. **Triggering**: When user requests match the skill's triggers or domain (e.g., "draw architecture diagram", "design database schema", "write API documentation", "audit accessibility"), the agent activates the skill.
+2. **Triggering**: When user requests match the skill's triggers or domain (e.g., "draw architecture diagram", "desktop-like React app", "break out of debugging loop", "audit accessibility"), the agent activates the skill.
 3. **Execution**: The agent loads `SKILL.md`, executes local scripts from `scripts/`, or consults deep-dive documentation in `references/` on-demand.
 
 ---
@@ -67,8 +68,12 @@ my-project/
 │       ├── architecture-diagrams/
 │       ├── codebase-exploration/
 │       ├── db-schema-designer/
+│       ├── desktop-app-ux/
 │       ├── frontend-ux-craft/
+│       ├── refactor-and-redesign/
 │       ├── software-documentation/
+│       ├── web-graphics-studio/
+│       ├── widen-the-lens/
 │       └── ...
 ├── src/
 └── package.json
@@ -100,12 +105,16 @@ git clone https://github.com/your-username/agent-skills.git ~/.agents/skills
 | [`db-schema-designer`](#db-schema-designer) | Database | Designs SQL and NoSQL schemas optimized for access patterns, integrity, and indexes | SQL & NoSQL modeling guides |
 | [`software-documentation`](#software-documentation) | Documentation | Produces audience-specific docs (Dev, Client, PM, QA) and Postman collections | `scripts/build_postman_collection.py`, templates |
 | [`code-quality`](#code-quality) | Quality | Writing and refactoring clean, maintainable, and sensibly performant code | `references/maintainability.md`, `references/performance.md` |
+| [`refactor-and-redesign`](#refactor-and-redesign) | Refactoring | Large-scale code refactors and UI redesigns in small verified batches | `find_hardcoded_colors.py`, `contrast.py`, `PLAN.md` |
 | [`adversial-review`](#adversial-review) | Review | Strict Principal Engineer & Security Architect code review | Correctness, complexity, security vectors |
 | [`coding-expert`](#coding-expert) | Engineering | Pragmatic, low-overhead code generation tuned for cost/context efficiency | Architecture preservation rules |
 | [`ai-code-test-validation`](#ai-code-test-validation) | Testing | Requirement-driven unit/regression tests with mutation verification | Stack detector, AST mutation runner (`scripts/`) |
 | [`codebase-exploration`](#codebase-exploration) | Analysis | High-speed regex pattern search, import/dependency mapping, call graphs | `find_patterns.py`, `call_graph.py`, `import_mapper.py` |
 | [`security-analysis`](#security-analysis) | Security | OWASP vulnerability detection, threat modeling, and input validation | Security checklists and reporting templates |
+| [`widen-the-lens`](#widen-the-lens) | Debugging | Unstick-and-widen protocol to break debugging loops and surface root causes | `scripts/ledger.py`, hypothesis matrix |
 | [`frontend-ux-craft`](#frontend-ux-craft) | Frontend | Senior UI/UX engineering, WCAG 2.2 AA accessibility, design tokens, security | `tokens.css`, `audit_project.py`, `contrast.py` |
+| [`desktop-app-ux`](#desktop-app-ux) | Frontend | Desktop-like native feel for React (VS Code/Linear/Figma style, hotkeys, palettes) | `references/react-patterns.md`, pane layouts |
+| [`web-graphics-studio`](#web-graphics-studio) | Graphics | Creative animations, interactive visuals, Canvas 2D/WebGL, and high-impact pages | `starter.html`, GSAP/SVG/Canvas recipes |
 | [`dsa-expert`](#dsa-expert) | Algorithms | Algorithm selection, Big-O analysis, LeetCode/DSA problem solving | Decision matrix, patterns catalog |
 | [`payment-integration`](#payment-integration) | Integrations | Payment gateways (Stripe, Razorpay, PayPal, UPI) with safe webhook verification | Plan template, security checklist |
 | [`nist-rmf-ai`](#nist-rmf-ai) | Compliance | NIST AI Risk Management Framework (Govern, Map, Measure, Manage) compliance | 7 AI trustworthiness pillars |
@@ -168,12 +177,24 @@ git clone https://github.com/your-username/agent-skills.git ~/.agents/skills
 
 ---
 
-### 4. Code Quality & Review
+### 4. Code Quality, Refactoring & Review
 
 #### `code-quality`
 - **When to use**: Whenever writing, refactoring, or optimizing code across any language.
 - **Core Principles**: Correctness first, clarity second, performance where evidence justifies it. Avoids premature optimization and drive-by rewrites.
 - **References**: Deep guides for maintainability (`references/maintainability.md`) and algorithmic performance (`references/performance.md`).
+
+#### `refactor-and-redesign`
+- **When to use**: Planning and executing large-scale code refactors, codebase modernizations, tech debt paydowns, architectural migrations, or UI reskins/dark mode additions.
+- **Phased Discipline**:
+  - **Batch Execution**: Splits massive changes into small, reviewable batches (1 to 8 files each) that keep behavior verified at every step.
+  - **Separation of Concerns**: Never changes behavior and structure in the same step.
+  - **Progress Persistence**: Maintains an explicit `PLAN.md` tracking goals, inventories, batches, and verification gates.
+- **Bundled Tools & Resources**:
+  - `scripts/find_hardcoded_colors.py`: Scans codebases to catalog hardcoded colors before introducing design tokens.
+  - `scripts/contrast.py`: WCAG color contrast calculator.
+  - `references/refactor-playbook.md`: Safe refactoring recipes (parallel change, strangler pattern, characterization tests).
+  - `references/ui-redesign-and-theming.md`: Design token architecture, theme migrations, and CSS variable strategies.
 
 #### `adversial-review`
 - **When to use**: Reviewing pull requests, evaluating bug fixes, or performing security audits.
@@ -214,7 +235,23 @@ git clone https://github.com/your-username/agent-skills.git ~/.agents/skills
 
 ---
 
-### 7. UI/UX & Frontend Engineering
+### 7. Debugging & Root Cause Analysis
+
+#### `widen-the-lens`
+- **When to use**: When a fix fails, the same error recurs, the AI is stuck in a loop repeating shallow guesses, or a bug resists initial diagnosis.
+- **Unstick-and-Widen Protocol**:
+  - **Attempt Ledger**: Maintains a written log of attempts, expectations, and actual outcomes to prevent repeating past failures (`scripts/ledger.py`).
+  - **Check the Obvious**: Mandatory 2-minute gate verifying path typos, stale caches, unsaved edits, and environment mismatches (`references/obvious-checks.md`).
+  - **Widen Directions**: Looks one layer further out: Upstream inputs, Downstream consumers, Sideways working examples, Environment, and Git history.
+  - **Multi-Hypothesis Matrix**: Generates $\ge 3$ distinct causal hypotheses and ranks them by cheapest testable action.
+- **Bundled Tools**:
+  - `scripts/ledger.py`: CLI ledger utility to log, view, and inspect debugging attempts and outcomes.
+  - `references/obvious-checks.md`: Checklist of trivial-yet-common bug sources.
+  - `references/search-broadening.md`: Strategies for widening code and documentation searches.
+
+---
+
+### 8. UI/UX & Creative Frontend Engineering
 
 #### `frontend-ux-craft`
 - **When to use**: Designing, building, refactoring, or styling frontend interfaces in React, Next.js, Vue, Angular, Svelte, Inertia.js, or plain HTML/CSS.
@@ -227,9 +264,32 @@ git clone https://github.com/your-username/agent-skills.git ~/.agents/skills
   - `scripts/contrast.py`: Computes exact WCAG contrast ratios for Hex and `oklch()` pairs.
   - `scripts/check_tokens.py`: Validates color gamuts and theme pairings across token stylesheets.
 
+#### `desktop-app-ux`
+- **When to use**: Building React applications that demand the responsiveness, fixed chrome, and keyboard workflow of native desktop software (VS Code, Linear, Figma, Notion, Finder) rather than scrolling web documents.
+- **Core Principles**:
+  - **Fixed App Shell**: Full viewport height with `overflow: hidden`, independent pane scrolling (`min-height: 0`), and draggable splitters.
+  - **Keyboard-First Design**: Central shortcut map (`Mod+K`, `Mod+S`, `Mod+F`, arrow navigation), status bar, and shortcut discoverability.
+  - **Tool Ergonomics**: Unified action registry powering command palettes (`cmdk`), menu bars, and contextual right-click menus; explicit multi-select state (`Set` of IDs + anchor).
+  - **Tool Aesthetic**: Compact density (24-32px row heights), hairline 1px borders, system font stacks, and zero bounce/scroll-jacking.
+- **References**:
+  - `references/react-patterns.md`: Production code patterns for command palettes, resizable panes, hotkeys, selection models, and context menus.
+
+#### `web-graphics-studio`
+- **When to use**: Crafting high-impact visuals, interactive animations, hero sections, portfolios, landing pages, particle effects, generative art, and 3D scenes in the browser.
+- **Technology Ladder**:
+  - Escalates progressively from lightest to heaviest: CSS transitions/keyframes $\rightarrow$ Scroll-driven animations (`animation-timeline`) $\rightarrow$ SVG drawing/morphing $\rightarrow$ Canvas 2D $\rightarrow$ WebGL / three.js.
+  - Discard generic looks in favor of deliberate color tokens (`oklch()`), typography hierarchy, and purposeful easing curves (`cubic-bezier`).
+  - Built-in battery and accessibility safety: `@media (prefers-reduced-motion)` fallbacks and `IntersectionObserver` pause on offscreen rendering.
+- **Assets & Recipes**:
+  - `assets/starter.html`: Single-file template with theme support, scroll reveal, and Canvas hero.
+  - `references/css-recipes.md`: Glassmorphism, grain textures, marquees, and view transitions.
+  - `references/svg-and-canvas.md`: Particle systems, flow fields, noise meshes, and SVG line animations.
+  - `references/animation-libraries.md`: GSAP timelines, ScrollTrigger recipes, and three.js starters.
+  - `references/page-patterns.md`: Layout blueprints for heroes, features, pricing, and case studies.
+
 ---
 
-### 8. Algorithms & Problem Solving
+### 9. Algorithms & Problem Solving
 
 #### `dsa-expert`
 - **When to use**: Solving competitive programming challenges, interview preparation (LeetCode/HackerRank), or selecting the optimal data structure for production workloads.
@@ -237,7 +297,7 @@ git clone https://github.com/your-username/agent-skills.git ~/.agents/skills
 
 ---
 
-### 9. Domain Integrations & Compliance
+### 10. Domain Integrations & Compliance
 
 #### `payment-integration`
 - **When to use**: Integrating payment providers (Stripe, Razorpay, PayPal, Adyen, Square, UPI, etc.).
@@ -252,7 +312,7 @@ git clone https://github.com/your-username/agent-skills.git ~/.agents/skills
 
 ---
 
-### 10. Cost & Token Optimization
+### 11. Cost & Token Optimization
 
 #### `token-optimiser`
 - **When to use**: Working with free-tier model quotas, low RPM limits, or large multi-file projects.
