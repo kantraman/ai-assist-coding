@@ -1,0 +1,10 @@
+{
+  "id": "MODULE_ID",
+  "type": "Module",
+  "layer": "domain",
+  "nodes": [],
+  "edges": [
+    {"rel": "implements", "to": "R_ID"},
+    {"rel": "tested_by", "to": "MODULE_ID.unit"}
+  ]
+}

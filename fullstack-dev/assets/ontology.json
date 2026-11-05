@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "node_types": {
+    "Requirement": {},
+    "Module": {"requires": ["layer"]},
+    "Entity": {},
+    "Table": {},
+    "Endpoint": {},
+    "Component": {},
+    "Test": {},
+    "Risk": {},
+    "Decision": {},
+    "ExternalService": {}
+  },
+  "edge_types": {
+    "depends_on": {"from": ["Module", "Component"], "to": ["Module", "Component", "ExternalService"]},
+    "implements": {"from": ["Module", "Component", "Endpoint"], "to": ["Requirement"]},
+    "exposes":    {"from": ["Module"], "to": ["Endpoint"]},
+    "consumes":   {"from": ["Module", "Component"], "to": ["Endpoint"]},
+    "persists":   {"from": ["Module"], "to": ["Table"]},
+    "models":     {"from": ["Table", "Endpoint", "Component"], "to": ["Entity"]},
+    "tested_by":  {"from": ["Module", "Component", "Endpoint", "Requirement"], "to": ["Test"]},
+    "mitigates":  {"from": ["Module", "Component", "Decision"], "to": ["Risk"]},
+    "decided_by": {"from": ["Module", "Component", "Table", "Endpoint"], "to": ["Decision"]}
+  },
+  "layers": {"ui": 4, "api": 3, "domain": 2, "data": 1, "shared": 0},
+  "rules": {
+    "acyclic": ["depends_on"],
+    "layered": "depends_on",
+    "require_outgoing": [
+      {"type": "Module", "rel": "tested_by", "severity": "warn"}
+    ],
+    "require_incoming": [
+      {"type": "Requirement", "rel": "implements", "severity": "error"},
+      {"type": "Endpoint", "rel": "exposes", "severity": "error"},
+      {"type": "Table", "rel": "persists", "severity": "error"}
+    ]
+  }
+}
